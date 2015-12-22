@@ -12,5 +12,6 @@ class Card(models.Model):
     current_rank = models.CharField(max_length=200, null=True, blank=True)
     last_seen = models.DateTimeField(null=True, blank=True)
     deck = models.ForeignKey(Deck)
-
+    image = models.CharField(max_length=200, null=True, blank=True)
+    recording = models.CharField(max_length=200, null=True, blank=True)    
 
