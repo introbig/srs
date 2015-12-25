@@ -2,19 +2,21 @@
 
 {% block head %}
 <style>
-.contain {
-	max-width: 600px
+#center-content {
+	max-width: 600px;
 }
 
 #question-card {
-	margin:0;
-	padding:0;
-    
-
+	margin:2% auto 2%;
+	padding:8%;
+    width:100%;
+    border-radius: 20px;
+    border: 2px solid grey;
 }
 
-
-
+.question {
+	font-size: 1.3em;
+}
 
 
 
@@ -22,16 +24,21 @@
 </style>
 {% endblock %}
 {% block content %}
-<div class="contain">
+<div class="container" id="center-content" style="">
+  <div id="deckName">
+  <h3 class="text-left">Politics</h3>
+  </div>
   <section id="question-card">
-
+    <p class="question">
+      The president of the united states is
+    </p>
 
 
   </section>
-
-
-
-
-
+  <section id="question-card">
+    <p class="question">
+      Barrack Obama
+    </p>
+  </section>
 </div>
 {% endblock %}
