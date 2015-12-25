@@ -3,7 +3,7 @@ from . import views
 
 
 urlpatterns = [
-  url(r'^home/', views.hello_world, name="hello_world"),
-  url('^card/(?P<id>\d+)/$', views.card_view, name="card"),
+  url('^card_template/(?P<id>\d+)/$', views.card_view, name="card"),
+  url('^decks_template', views.decks_view, name="decks"),
 
 ]
