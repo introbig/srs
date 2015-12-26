@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+#center-content {
+	max-width: 600px;
+}
+
+.question-card {
+	margin:4% auto 4%;
+	padding:7%;
+    width:100%;
+    border-radius: 20px;
+    border: 2px solid grey;
+}
+
+.set-text {
+	font-size: 1.3em;
+}
+
+.question {
+	font-size: 1.3em;
+}
+
+#fixed-bottom {
+  width:100%;
+  text-align:center;
+}
+
+.hide-it {
+  display:none;
+}
+
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="container" id="center-content" style="">
+  <div id="deckName">
+  <h3 class="text-left">{{card.deck}}</h3>
+  </div>
+  <section class="question-card">
+    <p class="set-text">
+      {{ card.question }}
+    </p>
+  </section>
+  
+  <button class="btn btn-lg btn-primary btn-block" id="show-answer">Show Answer</button>
+  
+  <section class="question-card hide-it" id="answer-card">
+    <p class="set-text">
+      {{ card.answer }}
+    </p>
+  </section>
+
+  <p class="text-center hide-it" id="how-well">How easily did you recall this answer?</p>
+  <section id="fixed-bottom">
+    <div class="btn-group hide-it" id="recall-rank">
+      <a href="{% url 'rank_update' deck_id=card.deck.id card_id=card.id rank='1' %}" class="btn btn-danger btn-lg" style="width:20%;">1</a>
+      <a href="{% url 'rank_update' deck_id=card.deck.id card_id=card.id rank='2' %}" class="btn btn-warning btn-lg" style="width:20%;">2</a>
+      <a href="{% url 'rank_update' deck_id=card.deck.id card_id=card.id rank='3' %}" class="btn btn-info btn-lg" style="width:20%;">3</a>
+      <a href="{% url 'rank_update' deck_id=card.deck.id card_id=card.id rank='4' %}" class="btn btn-success btn-lg" style="width:20%;">4</a>
+      <a href="{% url 'rank_update' deck_id=card.deck.id card_id=card.id rank='5' %}" class="btn btn-primary btn-lg" style="width:20%;">5</a>
+    </div>
+  </section>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+
+<script>
+
+$("#show-answer").click(function(){
+  $("#recall-rank").show()
+  $("#how-well").show()
+  $("#answer-card").show()
+  $("#show-answer").hide()
+})
+
+
+
+
+
+</script>
+
+{% endblock %}
+
