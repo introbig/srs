@@ -3,6 +3,8 @@ from .models import Card
 from .models import Deck
 from django.contrib.auth.models import User
 
+def about_view(request):
+	return render(request, "cards/about_template.html")
 
 
 def card_view(request, id):
