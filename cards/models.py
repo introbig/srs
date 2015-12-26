@@ -12,7 +12,7 @@ class Card(models.Model):
     question = models.TextField(default="", null=True, blank=True)
     answer = models.TextField(default="", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    current_rank = models.CharField(max_length=200, null=True, blank=True, default=0)
+    current_rank = models.IntegerField(null=True, blank=True, default=0)
     last_seen = models.DateTimeField(null=True, blank=True)
     deck = models.ForeignKey(Deck)
     image = models.CharField(max_length=200, null=True, blank=True)
