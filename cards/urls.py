@@ -11,5 +11,6 @@ urlpatterns = [
   url('^card_review_template/(?P<id>\d+)/$', views.card_review_view, name="card_review"),
   url('^rank_update_template/(?P<deck_id>\d+)/(?P<card_id>\d+)/(?P<rank>\d+)/$', views.rank_update_view, name="rank_update"),
   url('^about_template', views.about_view, name="about"),
+  url('^register_template', views.register_view, name="register"),
 
 ]

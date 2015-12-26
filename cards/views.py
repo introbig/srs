@@ -2,9 +2,17 @@ from django.shortcuts import render
 from .models import Card
 from .models import Deck
 from django.contrib.auth.models import User
+from .forms import CreateUserForm
+from django.http import HttpResponse
 
 def about_view(request):
 	return render(request, "cards/about_template.html")
+
+def register_view(request):
+    if request.method == "POST":
+        return HttpResponse("hi")
+    form = CreateUserForm()
+    return render(request, "cards/register_template.html", {"form": form})
 
 
 def card_view(request, id):
