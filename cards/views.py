@@ -4,13 +4,25 @@ from .models import Deck
 from django.contrib.auth.models import User
 from .forms import CreateUserForm
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
+
+
+def home_view(request):
+	return render(request, "cards/home_template.html")
 
 def about_view(request):
 	return render(request, "cards/about_template.html")
 
 def register_view(request):
     if request.method == "POST":
-        return HttpResponse("hi")
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = authenticate(username=request.POST['username'], password=request.POST['password1'])
+            login(request, user)
+            return render(request, "cards/decks_template.html")
+        form = CreateUserForm(request.POST)
+        return render(request, "cards/register_template.html", {"form": form})
     form = CreateUserForm()
     return render(request, "cards/register_template.html", {"form": form})
 
@@ -22,7 +34,7 @@ def card_view(request, id):
 
 
 def decks_view(request):
-    query_set = Deck.objects.all()
+    query_set = Deck.objects.filter(user__exact=request.user.id)
     return render(request, "cards/decks_template.html", {"query_set": query_set})
 
 

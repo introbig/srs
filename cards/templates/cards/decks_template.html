@@ -21,7 +21,9 @@ th, h3 {
         <th>Deck Name</th>
         <th>Mastery</th>
         <th>Cards</th>
-        <th></th>
+        <th style="text-align:center;">
+          <button class="btn btn-sm btn-success" onclick="newDeck()"><span class="glyphicon glyphicon-plus"></span></button>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -52,4 +54,14 @@ th, h3 {
 </div>
 {% endblock %}
 
+
+{% block scripts %}
+<script>
+function newDeck() {
+	$("tbody").prepend("<tr><form action='/' method='post'><td><input class='form-control' name='deckname' pattern='.{1,}' required title='1 character minimum'></td><td>0%</td><td>0</td><td style='text-align:center;''><button type='submit' class='btn btn-warning btn-sm'>Save</button></td></form></tr>")
+}
+</script>
+
+
+{% endblock %}
 
