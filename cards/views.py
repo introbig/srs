@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from .models import Card
+from .models import Deck
+from django.contrib.auth.models import User
+
 
 
 def card_view(request, id):
@@ -9,4 +12,5 @@ def card_view(request, id):
 
 
 def decks_view(request):
-    return render(request, "cards/decks_template.html")
+    query_set = Deck.objects.all()
+    return render(request, "cards/decks_template.html", {"query_set": query_set})

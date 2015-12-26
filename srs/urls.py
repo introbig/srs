@@ -19,5 +19,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cards/', include("cards.urls")),
+    url(r'^logout/?', 'django.contrib.auth.views.logout', {'next_page': '/login'}),
+    url(r'^', include('django.contrib.auth.urls')),
 ]
 
