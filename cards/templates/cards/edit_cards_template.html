@@ -1,11 +1,19 @@
 {% extends "base.html" %}
 
 
+{% block head %}
+<style>
+.deck-name:hover {
+    border: 1px solid grey;
+}
+
+</style>
+{% endblock %}
 
 {% block content %}
 <div class="container">
   <section class="col-md-12">
-  	<h3 style="display:inline-block;">{{deck_name}}</h3><button class="btn btn-warning" style="float:right;" onclick="deleteDeck({{ deck_id }})">Delete Deck</button>
+  	<h3 class="deck-name" style="display:inline-block;">{{deck_name}}</h3><button class="btn btn-warning" style="float:right;" onclick="deleteDeck({{ deck_id }})">Delete Deck</button>
     <table class="table">
     <thead>
       <tr>
@@ -42,6 +50,16 @@
 
 {% block scripts %}
 <script>
+
+var editting = false
+$(".deck-name").click(function(){
+  if (editting==false){
+  $(".deck-name").html()
+  $(".deck-name").html("<input name='thing' class='form-control' type='text' autofocus value='" + $(".deck-name").html() + "'>")
+  editting = true
+  }
+})
+
 
 function deleteCard(card_id,deck_id) {
   
