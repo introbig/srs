@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container col-md-4 col-md-offset-4">
+
+      <form class="form-signin" action="" method="POST">
+        <h2 class="form-signin-heading">Please register</h2>
+        {% csrf_token %}
+        {% load widget_tweaks %}
+        {{ form.username.errors }}
+        {% render_field form.username class="form-control" placeholder="Username" required="" autofocus="" %}
+        {{ form.password1.errors }}
+        {% render_field form.password1 class="form-control" placeholder="Password" required="" %}
+        {{ form.password2.errors }}
+        {% render_field form.password2 class="form-control" placeholder="Confirm Password" required="" %}
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Register Now</button>
+        <div style="text-align:center;width:100%;">
+        <a href="{% url "login" %}">Already have an account? Click here!</a>
+        </div>
+      </form>
+
+    </div> <!-- /container -->
+{% endblock %}
+
+
+
+{% block scripts %}
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+   <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+
+   <script>
+  // var c = 1;
+
+  // function cuniq() {
+  // var d = new Date(),
+  // m = d.getMilliseconds() + "",
+  // u = ++d + m + (++c === 10000 ? (c = 1) : c);
+  // return u;
+  // }
+
+  // document.querySelector("#id_username").setAttribute("value", cuniq())
+
+
+
+  // </script>
+{% endblock %}

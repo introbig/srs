@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+<div class="container">
+  <section class="col-md-12">
+  	<h3 style="display:inline-block;">{{deck_name}}</h3><button class="btn btn-warning" style="float:right;" onclick="deleteDeck({{ deck_id }})">Delete Deck</button>
+    <table class="table">
+    <thead>
+      <tr>
+        <th>Question</th>
+        <th>Answer</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in query_set %}
+      <tr>
+        <td><textarea class="form-control" name="q" q-id='{{ item.id }}'>{{item.question}}</textarea></td>
+        <td><textarea class="form-control" name="a" a-id='{{ item.id }}'>{{item.answer}}</textarea></td>
+        <td style="text-align:center;">
+          <div class="btn-group" role="group" aria-label="...">
+          	<button onclick="updateCard({{ item.id }})" id="update" class="btn btn-success">Update</button>
+        	  <button onclick="deleteCard({{ item.id }},{{ deck_id }})" class="btn btn-danger">Delete</a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button class="btn btn-primary text-center" id="add-new">Add a New Card</button>
+  </section>
+</div>
+
+
+
+
+{% endblock %}
+
+
+
+{% block scripts %}
+<script>
+
+function deleteCard(card_id,deck_id) {
+  
+  if (confirm('Are you sure you want to delete this card?')) {
+    var form = document.createElement("form")
+    form.setAttribute("action", "")
+    form.setAttribute("method", "post")
+    var input1 = document.createElement("input")
+    input1.setAttribute("name", "card_id")
+    input1.setAttribute("type", "text")
+    input1.setAttribute("value", card_id)
+    var input2 = document.createElement("input")
+    input2.setAttribute("name", "deck_id")
+    input2.setAttribute("type", "text")
+    input2.setAttribute("value", deck_id)
+    var input3 = document.createElement("input")
+    input3.setAttribute("name", "function")
+    input3.setAttribute("type", "text")
+    input3.setAttribute("value", "deleteCard")
+    form.appendChild(input1)
+    form.appendChild(input2)
+    form.appendChild(input3)
+    form.submit()
+
+  }
+}
+
+function updateCard(id) {
+  var form = document.createElement("form")
+  form.setAttribute("action", "")
+  form.setAttribute("method", "post")
+  var input1 = document.createElement("textarea")
+  input1.setAttribute("name", "question")
+  input1.setAttribute("type", "text")
+  input1.innerHTML = document.querySelector("[q-id='" + id + "']").value
+  var input2 = document.createElement("textarea")
+  input2.setAttribute("name", "answer")
+  input2.setAttribute("type", "text")
+  input2.innerHTML = document.querySelector("[a-id='" + id + "']").value
+  var input3 = document.createElement("input")
+  input3.setAttribute("name", "id")
+  input3.setAttribute("type", "text")
+  input3.setAttribute("value", id)
+  var input4 = document.createElement("input")
+  input4.setAttribute("name", "function")
+  input4.setAttribute("type", "text")
+  input4.setAttribute("value", "updateCard")
+  form.appendChild(input1)
+  form.appendChild(input2)
+  form.appendChild(input3)
+  form.appendChild(input4)
+  form.submit()
+}
+
+
+function submitForm() {
+    var form = document.createElement("form")
+    form.setAttribute("action", "")
+    form.setAttribute("method", "post")
+    var input1 = document.createElement("textarea")
+    input1.setAttribute("name", "question")
+    input1.setAttribute("type", "text")
+    input1.innerHTML = document.querySelector("#question").value
+    var input2 = document.createElement("textarea")
+    input2.setAttribute("name", "answer")
+    input2.setAttribute("type", "text")
+    input2.innerHTML = document.querySelector("#answer").value
+    form.appendChild(input1)
+    form.appendChild(input2)
+    form.submit()
+}
+
+
+
+function deleteDeck(id) {
+  if (confirm('Are you sure you want to delete this deck?')) {
+    var form = document.createElement("form")
+    form.setAttribute("action", "")
+    form.setAttribute("method", "post")
+    var input1 = document.createElement("input")
+    input1.setAttribute("name", "id")
+    input1.setAttribute("type", "text")
+    input1.setAttribute("value", id)
+    var input2 = document.createElement("input")
+    input2.setAttribute("name", "function")
+    input2.setAttribute("type", "text")
+    input2.setAttribute("value", "deleteDeck")
+    form.appendChild(input1)
+    form.appendChild(input2)
+    form.submit()
+  }
+}
+
+
+
+
+var pressed = false
+
+$("#add-new").click(function(){
+  if (pressed==false){
+    $("tbody").append("<tr id='inserted-card'><td><textarea class='form-control' id='question'></textarea></td><td><textarea class='form-control' id='answer'></textarea></td><td style='text-align:center;'><p class='btn-group'><button onclick=\"submitForm()\" class='btn btn-warning'>Save</button></p></td></tr>")
+    pressed = true
+    $("#add-new").html("Hide New Card")
+  } else {
+    $("#add-new").html("Add a New Card")
+    $("#inserted-card").remove()
+    pressed = false
+  }
+})
+
+</script>
+{% endblock %}

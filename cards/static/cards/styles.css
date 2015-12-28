@@ -1,0 +1,22 @@
+html, body {
+  font-family: 'Source Sans Pro', sans-serif;
+  height:100%;
+  margin:0;
+  padding:0;
+}
+
+
+#container {
+   min-height:100%;
+   position:relative;
+   padding-bottom:80px;
+}
+
+
+#footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   background:black;
+   padding:10px 40px;
+}

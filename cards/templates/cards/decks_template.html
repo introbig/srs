@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+th, h3 {
+	font-weight:700;
+}
+
+.rotate {
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+  }
+
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container">
+  <section class="col-md-6 col-md-offset-1">
+    <h3 class="text-center">My Decks</h3>
+    <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Deck Name</th>
+        <th>Mastery</th>
+        <th>Cards</th>
+        <th style="text-align:center;">
+          <button class="btn btn-sm btn-success" onclick="newDeck()"><span class="glyphicon glyphicon-plus"></span></button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in query_set %}	
+      <tr>
+        <td>{{item.name}}</td>
+        <td>0%</td>
+        <td>{{ item.card_set.count }}</td>
+        <td style="text-align:center;">
+          <p class="btn-group">
+          	<a href="{% url 'card_review' id=item.id %}" class="btn btn-primary btn-sm">Study</a>
+        	<a href="{% url 'edit_cards' id=item.id %}" class="btn btn-default btn-sm">Edit</a>
+          </p>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  </section>
+  <section class="col-md-4" style="text-align:center;">
+  <h3 class="text-center">Sponsors</h3>
+    <img src="https://s3.amazonaws.com/leavenet/test/moose.jpg" alt="">
+
+
+  </section>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+
+function newDeck() {
+  if (pressed == false){
+    var trNode = document.createElement("tr")
+    var tdNode1 = document.createElement("td")
+    var tdNode2 = document.createElement("td")
+    var tdNode3 = document.createElement("td")
+    var tdNode4 = document.createElement("td")
+
+    var form = document.createElement("form")
+    form.setAttribute("action",'/decks_template')
+    form.setAttribute("method",'post')
+    var input = document.createElement("input")
+    input.setAttribute("class", 'form-control')
+    input.setAttribute("name",'deckname')
+    input.setAttribute("required","")
+    var button = document.createElement("button")
+    button.setAttribute("type",'submit')
+    button.setAttribute("class",'btn btn-warning btn-sm')
+    button.setAttribute("onclick", "formSubmit()")
+    button.innerHTML = "Save"
+    tdNode2.innerHTML= "0%"
+    tdNode3.innerHTML= "0"
+    tdNode4.setAttribute("style","text-align:center;")
+    trNode.setAttribute("class", "rem")
+
+    trNode.appendChild(tdNode1)
+    tdNode1.appendChild(form)
+    form.appendChild(input)
+    trNode.appendChild(tdNode2)
+    trNode.appendChild(tdNode3)
+    trNode.appendChild(tdNode4)
+    tdNode4.appendChild(button)
+
+    document.querySelector("tbody").appendChild(trNode)
+    pressed = true
+    $(".glyphicon-plus").addClass("rotate")
+  } else {
+    $(".rem").remove()
+    $(".glyphicon-plus").removeClass("rotate")
+    pressed = false
+  }
+}
+
+
+
+var pressed = false
+
+function formSubmit() {
+    document.querySelector("form").submit()
+}
+
+</script>
+
+
+{% endblock %}
+
