@@ -31,6 +31,9 @@
   display:none;
 }
 
+.break-words {
+  word-wrap: break-word;
+}
 
 </style>
 {% endblock %}
@@ -39,7 +42,7 @@
   <div id="deckName">
   <h3 class="text-left">{{card.deck}}</h3>
   </div>
-  <section class="question-card">
+  <section class="question-card break-words">
     <p class="set-text">{% load replace_tag %}
       {{ card.question|replace|safe }}
     </p>
@@ -47,7 +50,7 @@
   
   <button class="btn btn-lg btn-primary btn-block" id="show-answer">Show Answer</button>
   
-  <section class="question-card hide-it" id="answer-card">
+  <section class="question-card hide-it break-words" id="answer-card">
     <p class="set-text">
       {{ card.answer|replace|safe }}
     </p>

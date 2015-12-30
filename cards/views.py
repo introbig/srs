@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from .forms import DeckForm
 from .forms import CardForm
+import pandas as pd
+import numpy
 
 
 
@@ -41,15 +43,26 @@ def register_view(request):
     return render(request, "cards/register_template.html", {"form": form})
 
 
-def card_view(request, id):
-    id = 1
-    query_set = Card.objects.get(pk=1)
-    return render(request, "cards/card_template.html", {"query_set":query_set})
+# def card_view(request, id):
+#     id = 1
+#     query_set = Card.objects.get(pk=1)
+#     return render(request, "cards/card_template.html", {"query_set":query_set})
 
 
 @csrf_exempt
 def decks_view(request):
-    if request.method == "POST":
+    if request.method == "POST" and request.POST.get("function") == "deleteDeck":
+        Deck.objects.get(pk=request.POST.get("id")).delete()
+        query_set = Deck.objects.filter(user__exact=request.user.id)
+        return render(request, "cards/decks_template.html", {"query_set": query_set})
+    elif request.method == "POST" and request.FILES.get("bulkupload"):
+        df = pd.read_csv(request.FILES.get("bulkupload"))
+        for item in set(df["deck"]):
+            if item not in set(item.name for item in Deck.objects.filter(user=request.user.id)):
+                Deck.objects.create(name=item, user=request.user)
+        for item in df[["question", "answer", "deck"]].iterrows():
+            Card.objects.create(question=item[1], master=item[2], deck=item[3])
+    elif request.method == "POST":
         form = DeckForm({"user": request.user.id, "name": request.POST.get("deckname")})
         if form.is_valid():
             form.save()
@@ -67,10 +80,6 @@ def edit_cards_view(request, id):
         card_instance.question = request.POST.get("question")
         card_instance.answer = request.POST.get("answer")
         card_instance.save()
-    elif request.method == "POST" and request.POST.get("function") == "deleteDeck":
-        Deck.objects.get(pk=request.POST.get("id")).delete()
-        query_set = Deck.objects.filter(user__exact=request.user.id)
-        return render(request, "cards/decks_template.html", {"query_set": query_set})
     elif request.method == "POST":
         form = CardForm({"question":request.POST.get("question"), "answer": request.POST.get("answer"), "deck": id})
         if form.is_valid():
@@ -92,15 +101,13 @@ def delete_card_view(request, id1, id2):
 
 
 def card_review_view(request, id):
-	#card = Card.objects.filter(id__exact=request.id)[]
-    try:
+    if (Card.objects.filter(deck__exact=id).exists()):
         card = sorted(Card.objects.filter(deck__exact=id), key=lambda x: x.current_rank)[0]
         return render(request, "cards/card_review_template.html", {"card":card})
-    except:
-        query_set = Card.objects.filter(deck__exact=id)
-        deck_name = Deck.objects.get(pk=id).name
-        deck_id = Deck.objects.get(pk=id).id
-        return render(request, "cards/edit_cards_template.html", {"query_set": query_set, "deck_name": deck_name, "deck_id":deck_id})
+    query_set = Card.objects.filter(deck__exact=id)
+    deck_name = Deck.objects.get(pk=id).name
+    deck_id = Deck.objects.get(pk=id).id
+    return render(request, "cards/edit_cards_template.html", {"query_set": query_set, "deck_name": deck_name, "deck_id":deck_id})
 
 
 #  it is currently moving from lowest to highest rank

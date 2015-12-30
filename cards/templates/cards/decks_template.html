@@ -28,7 +28,8 @@ th, h3 {
         <th>Mastery</th>
         <th>Cards</th>
         <th style="text-align:center;">
-          <button class="btn btn-sm btn-success" onclick="newDeck()"><span class="glyphicon glyphicon-plus"></span></button>
+        <button class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Create a new deck" onclick="newDeck()"><span class="glyphicon glyphicon-plus"></span></button>
+        <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Upload a CSV. Columns must be: [ question | answer | deck ]" onclick="bulkUpload()"><span class="glyphicon glyphicon-list-alt"></span></button>
         </th>
       </tr>
     </thead>
@@ -61,6 +62,8 @@ th, h3 {
 
 
 {% block scripts %}
+{% load staticfiles %}
+<script type="text/javascript" src="{% static "cards/bulkUpload.js" %}"></script>
 <script>
 
 function newDeck() {
@@ -114,8 +117,13 @@ function formSubmit() {
     document.querySelector("form").submit()
 }
 
-</script>
 
+</script>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
 
 {% endblock %}
 

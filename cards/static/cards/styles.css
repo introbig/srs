@@ -5,13 +5,11 @@ html, body {
   padding:0;
 }
 
-
 #container {
    min-height:100%;
    position:relative;
    padding-bottom:80px;
 }
-
 
 #footer {
    position:absolute;

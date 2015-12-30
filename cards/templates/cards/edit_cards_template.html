@@ -41,8 +41,7 @@
   </section>
 </div>
 
-
-
+<div style="display:hidden;">{% csrf_token %}</div>
 
 {% endblock %}
 
@@ -54,15 +53,43 @@
 var editting = false
 $(".deck-name").click(function(){
   if (editting==false){
-  $(".deck-name").html()
-  $(".deck-name").html("<input name='thing' class='form-control' type='text' autofocus value='" + $(".deck-name").html() + "'>")
-  editting = true
+    $(".deck-name").html()
+    $(".deck-name").html("<input id='deck-name' name='deck-name' class='form-control' type='text' autofocus value='" + $(".deck-name").html() + "'>")
+    editting = true
+  }
+})
+
+
+function updateDeckName(val) {
+  var form = document.createElement("form")
+  form.setAttribute("action", "")
+  form.setAttribute("method", "post")
+  var input1 = document.createElement("input")
+  input1.setAttribute("name", "newDeckName")
+  input1.setAttribute("type", "text")
+  input1.setAttribute("value", val)
+  var input2 = document.createElement("input")
+  input2.setAttribute("name", "function")
+  input2.setAttribute("type", "text")
+  input2.setAttribute("value", "updateDeckName")
+  form.appendChild(input1)
+  form.appendChild(input2)
+  form.submit()
+}
+
+
+$(document).click(function(e){
+  if (e.currentTarget.activeElement.nodeName=="INPUT" && editting) {
+    e.preventDefault()
+  } else if (editting) {
+    console.log("hi")
+    updateDeckName($("#deck-name").val())
+
   }
 })
 
 
 function deleteCard(card_id,deck_id) {
-  
   if (confirm('Are you sure you want to delete this card?')) {
     var form = document.createElement("form")
     form.setAttribute("action", "")
@@ -83,9 +110,9 @@ function deleteCard(card_id,deck_id) {
     form.appendChild(input2)
     form.appendChild(input3)
     form.submit()
-
   }
 }
+
 
 function updateCard(id) {
   var form = document.createElement("form")
@@ -115,9 +142,9 @@ function updateCard(id) {
 }
 
 
-function submitForm() {
+function newCardForm() {
     var form = document.createElement("form")
-    form.setAttribute("action", "")
+    form.setAttribute("action", "/edit_cards_template/" + {{ deck_id }})
     form.setAttribute("method", "post")
     var input1 = document.createElement("textarea")
     input1.setAttribute("name", "question")
@@ -137,7 +164,7 @@ function submitForm() {
 function deleteDeck(id) {
   if (confirm('Are you sure you want to delete this deck?')) {
     var form = document.createElement("form")
-    form.setAttribute("action", "")
+    form.setAttribute("action", "/decks_template/"+ {{ deck_id }})
     form.setAttribute("method", "post")
     var input1 = document.createElement("input")
     input1.setAttribute("name", "id")
@@ -154,13 +181,11 @@ function deleteDeck(id) {
 }
 
 
-
-
+// This shows the the card forms and changes the show card, to hide
 var pressed = false
-
 $("#add-new").click(function(){
   if (pressed==false){
-    $("tbody").append("<tr id='inserted-card'><td><textarea class='form-control' id='question'></textarea></td><td><textarea class='form-control' id='answer'></textarea></td><td style='text-align:center;'><p class='btn-group'><button onclick=\"submitForm()\" class='btn btn-warning'>Save</button></p></td></tr>")
+    $("tbody").append("<tr id='inserted-card'><td><textarea class='form-control' id='question'></textarea></td><td><textarea class='form-control' id='answer'></textarea></td><td style='text-align:center;'><p class='btn-group'><button onclick=\"newCardForm()\" class='btn btn-warning'>Save</button></p></td></tr>")
     pressed = true
     $("#add-new").html("Hide New Card")
   } else {
