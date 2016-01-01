@@ -3,6 +3,7 @@ html, body {
   height:100%;
   margin:0;
   padding:0;
+  background-color: #f9f9f9;
 }
 
 #container {
@@ -17,4 +18,10 @@ html, body {
    width:100%;
    background:black;
    padding:10px 40px;
+}
+
+.card {
+  padding: 3% 5% 5% 5%;
+  background-color: #fff;
+  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
 }
