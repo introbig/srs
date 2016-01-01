@@ -10,7 +10,7 @@ from .forms import DeckForm
 from .forms import CardForm
 import pandas as pd
 import numpy
-
+import csv
 
 
 def redirect_view(request):
@@ -66,6 +66,14 @@ def decks_view(request):
                 Card.objects.create(question=values[0], answer=values[1], deck=next(x for x in Deck.objects.filter(user=request.user) if x.name==values[2]))
         except:
             return HttpResponse("Error in CSV. Please check columns and file format are correct.") 
+    elif request.GET.get("csv_down"):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+        writer = csv.writer(response)
+        writer.writerow(['question', 'answer', 'deck'])
+        for item in Card.objects.filter(deck__user=request.user):
+            writer.writerow([item.question, item.answer, item.deck.name])
+        return response
     elif request.method == "POST":
         form = DeckForm({"user": request.user.id, "name": request.POST.get("deckname")})
         if form.is_valid():
@@ -121,6 +129,5 @@ def rank_update_view(request, deck_id, card_id, rank):
     card_instance.save()
     card = sorted(Card.objects.filter(deck__exact=deck_id), key=lambda x: x.current_rank)[0]
     return render(request, "cards/card_review_template.html", {"card":card})
-
 
 

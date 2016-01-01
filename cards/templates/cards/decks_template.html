@@ -6,12 +6,18 @@ th, h3 {
 	font-weight:700;
 }
 
-.rotate {
-    -ms-transform: rotate(45deg); /* IE 9 */
-    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-    transform: rotate(45deg);
-  }
+.csv {
+  padding-left:10px;
+}
+.csv:hover {
+  background:#f2f2f2;
+}
 
+.rotate {
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
 </style>
 {% endblock %}
 
@@ -28,8 +34,25 @@ th, h3 {
         <th>Mastery</th>
         <th>Cards</th>
         <th style="text-align:center;">
-        <button class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Create a new deck" onclick="newDeck()"><span class="glyphicon glyphicon-plus"></span></button>
-        <button class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="top" title="Upload a CSV. Columns must be: [ question | answer | deck ]" onclick="bulkUpload()"><span class="glyphicon glyphicon-list-alt"></span></button>
+
+
+
+
+<div class="btn-group">
+  <a href="#" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span></a>
+  <ul class="dropdown-menu dropdown-menu-right">
+    <li><a onclick="newDeck()" href="javascript:void(0);"><span class="glyphicon glyphicon-plus ex"></span><span class="hide-deck"> Create New Deck</span></a></li>
+    <li class="divider"></li>
+    <li onclick="bulkUpload()" data-placement="bottom" data-toggle="tooltip" title="Columns: [ question | answer | deck ]"><a href="javascript:void(0);"><span class="glyphicon glyphicon-open"></span> Upload CSV</a></li>
+    <li><a href="{% url "decks" %}?csv_down=yes"><span class="glyphicon glyphicon-save"></span> Download CSV</a></li>
+  </ul>
+</div>
+
+
+  
+
+
+
         </th>
       </tr>
     </thead>
@@ -101,10 +124,12 @@ function newDeck() {
 
     document.querySelector("tbody").appendChild(trNode)
     pressed = true
-    $(".glyphicon-plus").addClass("rotate")
+    $(".hide-deck").html(" Hide New Deck")
+    $(".ex").addClass("rotate")
   } else {
     $(".rem").remove()
-    $(".glyphicon-plus").removeClass("rotate")
+    $(".ex").removeClass("rotate")
+    $(".hide-deck").html(" Create New Deck")
     pressed = false
   }
 }
