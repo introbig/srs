@@ -34,25 +34,17 @@ th, h3 {
         <th>Mastery</th>
         <th>Cards</th>
         <th style="text-align:center;">
-
-
-
-
-<div class="btn-group">
-  <a href="#" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span></a>
-  <ul class="dropdown-menu dropdown-menu-right">
-    <li><a onclick="newDeck()" href="javascript:void(0);"><span class="glyphicon glyphicon-plus ex"></span><span class="hide-deck"> Create New Deck</span></a></li>
-    <li class="divider"></li>
-    <li onclick="bulkUpload()" data-placement="bottom" data-toggle="tooltip" title="Columns: [ question | answer | deck ]"><a href="javascript:void(0);"><span class="glyphicon glyphicon-open"></span> Upload CSV</a></li>
-    <li><a href="{% url "decks" %}?csv_down=yes"><span class="glyphicon glyphicon-save"></span> Download CSV</a></li>
-  </ul>
-</div>
-
-
-  
-
-
-
+          <div class="btn-group">
+            <a href="#" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span></a>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li><a onclick="newDeck()" href="javascript:void(0);"><span class="glyphicon glyphicon-plus ex"></span><span class="hide-deck"> Create New Deck</span></a></li>
+              <li class="divider"></li>
+              <li onclick="bulkUpload()" data-placement="bottom" data-toggle="tooltip" title="Columns: [ question | answer | deck ]"><a href="javascript:void(0);"><span class="glyphicon glyphicon-open"></span> Upload CSV</a></li>
+              <li><a href="{% url "decks" %}?csv_down=yes"><span class="glyphicon glyphicon-save"></span> Download CSV</a></li>
+              <li class="divider"></li>
+              <li><a href="{% url "decks" %}"><span class="glyphicon glyphicon-play"></span> Study All Decks</a></li>
+            </ul>
+          </div>
         </th>
       </tr>
     </thead>

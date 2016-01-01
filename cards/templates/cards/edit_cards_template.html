@@ -28,7 +28,7 @@
         <td><textarea class="form-control" name="q" q-id='{{ item.id }}'>{{item.question}}</textarea></td>
         <td><textarea class="form-control" name="a" a-id='{{ item.id }}'>{{item.answer}}</textarea></td>
         <td style="text-align:center;">
-          <div class="btn-group" role="group" aria-label="...">
+          <div class="btn-group btn-or" role="group" aria-label="...">
           	<button onclick="updateCard({{ item.id }})" id="update" class="btn btn-success">Update</button>
         	  <button onclick="deleteCard({{ item.id }},{{ deck_id }})" class="btn btn-danger">Delete</a>
           </div>

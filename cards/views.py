@@ -68,7 +68,7 @@ def decks_view(request):
             return HttpResponse("Error in CSV. Please check columns and file format are correct.") 
     elif request.GET.get("csv_down"):
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+        response['Content-Disposition'] = 'attachment; filename="all_cards.csv"'
         writer = csv.writer(response)
         writer.writerow(['question', 'answer', 'deck'])
         for item in Card.objects.filter(deck__user=request.user):
@@ -113,13 +113,14 @@ def delete_card_view(request, id1, id2):
 
 
 def card_review_view(request, id):
-    if (Card.objects.filter(deck__exact=id).exists()):
-        card = sorted(Card.objects.filter(deck__exact=id), key=lambda x: x.current_rank)[0]
-        return render(request, "cards/card_review_template.html", {"card":card})
-    query_set = Card.objects.filter(deck__exact=id)
-    deck_name = Deck.objects.get(pk=id).name
-    deck_id = Deck.objects.get(pk=id).id
-    return render(request, "cards/edit_cards_template.html", {"query_set": query_set, "deck_name": deck_name, "deck_id":deck_id})
+    if not (Card.objects.filter(deck__exact=id).exists()):
+        query_set = Card.objects.filter(deck__exact=id)
+        deck_name = Deck.objects.get(pk=id).name
+        deck_id = Deck.objects.get(pk=id).id
+        return render(request, "cards/edit_cards_template.html", {"query_set": query_set, "deck_name": deck_name, "deck_id":deck_id})
+    card = sorted(Card.objects.filter(deck__exact=id), key=lambda x: x.current_rank)[0]
+    return render(request, "cards/card_review_template.html", {"card":card})
+
 
 
 #  it is currently moving from lowest to highest rank

@@ -37,6 +37,25 @@ body, html {
   word-wrap: break-word;
 }
 
+
+body {
+  -webkit-perspective: 800px;
+}
+
+.card {
+    position: relative;
+    -webkit-animation-name: example; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 0.3s; /* Chrome, Safari, Opera */
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes example {
+    0% {left:-1000px; top:0px; transform:rotateY(-90deg)}
+    75% {left:-1000px; top:0px; transform:rotateY(-90deg)}
+    100% {left:0px; top:0px; transform:rotateY(0deg)}
+}
+
+
 </style>
 {% endblock %}
 {% block content %}
@@ -86,6 +105,8 @@ $("#show-answer").click(function(){
 })
 
 
+
+$(".card").toggleClass(".toggle-class")
 
 
 
