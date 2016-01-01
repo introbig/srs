@@ -10,8 +10,10 @@
 	margin:4% auto 4%;
 	padding:7%;
     width:100%;
-    border-radius: 6px;
-    border: 2px solid grey;
+}
+
+body, html {
+    background-color: #f9f9f9;
 }
 
 .set-text {
@@ -52,7 +54,7 @@
     
     <button class="btn btn-lg btn-primary btn-block" id="show-answer">Show Answer</button>
     
-    <section class="question-card hide-it break-words" id="answer-card">
+    <section class="question-card hide-it break-words" id="answer-card" style="border-top: 2px solid #d3d3d3;">
       <p class="set-text">
         {{ card.answer|replace|safe }}
       </p>
