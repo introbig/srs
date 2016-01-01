@@ -56,12 +56,16 @@ def decks_view(request):
         query_set = Deck.objects.filter(user__exact=request.user.id)
         return render(request, "cards/decks_template.html", {"query_set": query_set})
     elif request.method == "POST" and request.FILES.get("bulkupload"):
-        df = pd.read_csv(request.FILES.get("bulkupload"))
-        for item in set(df["deck"]):
-            if item not in set(item.name for item in Deck.objects.filter(user=request.user.id)):
-                Deck.objects.create(name=item, user=request.user)
-        for item in df[["question", "answer", "deck"]].iterrows():
-            Card.objects.create(question=item[1], master=item[2], deck=item[3])
+        try:
+            df = pd.read_csv(request.FILES.get("bulkupload"))
+            df.columns = [x.lower() for x in df.columns]
+            for item in set(df["deck"]):
+                if item not in set(item.name for item in Deck.objects.filter(user=request.user.id)):
+                    Deck.objects.create(name=item, user=request.user)
+            for index, values  in df[["question", "answer", "deck"]].iterrows():
+                Card.objects.create(question=values[0], answer=values[1], deck=next(x for x in Deck.objects.filter(user=request.user) if x.name==values[2]))
+        except:
+            return HttpResponse("Error in CSV. Please check columns and file format are correct.") 
     elif request.method == "POST":
         form = DeckForm({"user": request.user.id, "name": request.POST.get("deckname")})
         if form.is_valid():

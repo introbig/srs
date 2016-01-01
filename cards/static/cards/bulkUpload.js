@@ -1,4 +1,5 @@
-function bulkUpload() {
+function bulkUpload(e) {
+	console.log(e)
 	form = document.createElement("form")
 	form.setAttribute("method", "post")
 	form.setAttribute("action", "/decks_template/")
