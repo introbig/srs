@@ -6,7 +6,10 @@
 .deck-name:hover {
     border: 1px solid grey;
 }
+[name=a], [name=q] {
 
+height:150px !important;
+}
 </style>
 {% endblock %}
 
@@ -28,9 +31,9 @@
         <td><textarea class="form-control" name="q" q-id='{{ item.id }}'>{{item.question}}</textarea></td>
         <td><textarea class="form-control" name="a" a-id='{{ item.id }}'>{{item.answer}}</textarea></td>
         <td style="text-align:center;">
-          <div class="btn-group btn-or" role="group" aria-label="...">
-          	<button onclick="updateCard({{ item.id }})" id="update" class="btn btn-success">Update</button>
-        	  <button onclick="deleteCard({{ item.id }},{{ deck_id }})" class="btn btn-danger">Delete</a>
+          <div class="btn-group btn-group-vertical" role="group" aria-label="...">
+            <button onclick="updateCard({{ item.id }})" id="update" class="btn btn-success btn-edges"><i  class="glyphicon glyphicon-floppy-disk"></i></button>
+            <button onclick="deleteCard({{ item.id }},{{ deck_id }})" class="btn btn-danger btn-edges"><i class="glyphicon glyphicon-trash"></i></button>
           </div>
         </td>
       </tr>
