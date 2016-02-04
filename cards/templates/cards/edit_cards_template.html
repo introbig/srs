@@ -8,8 +8,12 @@
 }
 [name=a], [name=q] {
 
-height:150px !important;
+/*height:150px !important;*/
 }
+textarea {
+  line-height:1.4em !important;
+}
+
 </style>
 {% endblock %}
 
@@ -53,17 +57,21 @@ height:150px !important;
 {% block scripts %}
 <script>
 
+$("textarea").each(function() { $(this).height( this.scrollHeight ) });
+
+$("textarea").keydown(function(){ $("textarea").each(function() { $(this).height( this.scrollHeight ) }) })
+
 var editting = false
 $(".deck-name").click(function(){
   if (editting==false){
-    $(".deck-name").html()
-    $(".deck-name").html("<input id='deck-name' name='deck-name' class='form-control' type='text' autofocus value='" + $(".deck-name").html() + "'>")
+    $(".deck-name").html("<input id='deck-name' onblur='updateDeckName(this.value)' name='deck-name' class='form-control' type='text' autofocus value='" + $(".deck-name").html() + "'>")
     editting = true
   }
 })
 
 
 function updateDeckName(val) {
+  console.log(val)
   var form = document.createElement("form")
   form.setAttribute("action", "")
   form.setAttribute("method", "post")
@@ -72,24 +80,29 @@ function updateDeckName(val) {
   input1.setAttribute("type", "text")
   input1.setAttribute("value", val)
   var input2 = document.createElement("input")
-  input2.setAttribute("name", "function")
+  input2.setAttribute("name", "deck_id")
   input2.setAttribute("type", "text")
-  input2.setAttribute("value", "updateDeckName")
+  input2.setAttribute("value", {{ deck_id }}) 
+  var input3 = document.createElement("input")
+  input3.setAttribute("name", "function")
+  input3.setAttribute("type", "text")
+  input3.setAttribute("value", "updateDeckName")
   form.appendChild(input1)
   form.appendChild(input2)
+  form.appendChild(input3)  
   form.submit()
 }
 
 
-$(document).click(function(e){
-  if (e.currentTarget.activeElement.nodeName=="INPUT" && editting) {
-    e.preventDefault()
-  } else if (editting) {
-    console.log("hi")
-    updateDeckName($("#deck-name").val())
-
-  }
-})
+//$(document).click(function(e){
+//  if (e.currentTarget.activeElement.nodeName=="INPUT" && editting) {
+//    e.preventDefault()
+//  } else if (editting) {
+//    console.log("hi")
+//    updateDeckName($("#deck-name").val())
+//
+//  }
+//})
 
 
 function deleteCard(card_id,deck_id) {

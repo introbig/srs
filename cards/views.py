@@ -84,7 +84,11 @@ def decks_view(request):
 
 @csrf_exempt
 def edit_cards_view(request, id):
-    if request.method == "POST" and request.POST.get("function") == "deleteCard":
+    if request.method == "POST" and request.POST.get("function") == "updateDeckName":
+        form = DeckForm({"name":request.POST.get("newDeckName"), "user":request.user.id},instance=Deck.objects.get(pk=request.POST.get("deck_id")))
+        if form.is_valid():
+            form.save()
+    elif request.method == "POST" and request.POST.get("function") == "deleteCard":
         card_instance = Card.objects.get(pk=request.POST.get("card_id"))
         card_instance.delete()
     elif request.method == "POST" and request.POST.get("function") == "updateCard":
@@ -103,13 +107,13 @@ def edit_cards_view(request, id):
 
 
 #  add user validation
-def delete_card_view(request, id1, id2):
-    model_instance = Card.objects.get(pk = id1)
-    model_instance.delete()
-    query_set = Card.objects.filter(deck__exact=id2)
-    deck_name = Deck.objects.get(pk=id2).name
-    deck_id = Deck.objects.get(pk=id2).id
-    return render(request, "cards/edit_cards_template.html", {"query_set": query_set, "deck_name": deck_name, "deck_id":deck_id})
+#def delete_card_view(request, id1, id2):
+#    model_instance = Card.objects.get(pk = id1)
+#    model_instance.delete()
+#    query_set = Card.objects.filter(deck__exact=id2)
+#    deck_name = Deck.objects.get(pk=id2).name
+#    deck_id = Deck.objects.get(pk=id2).id
+#    return render(request, "cards/edit_cards_template.html", {"query_set": query_set, "deck_name": deck_name, "deck_id":deck_id})
 
 
 def card_review_view(request, id):

@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^the_back_office/', include(admin.site.urls)),
     url(r'^', include("cards.urls")),
     url(r'^logout/?', 'django.contrib.auth.views.logout', {'next_page': '/login'}),
     url(r'^', include('django.contrib.auth.urls')),
